@@ -14,7 +14,7 @@ fi
 
 # database menu
 
-select choose in "create Database" "List Database" "Connect Database" "Drop Database" "Exidt"
+select choose in "create Database" "List Database" "Connect Database" "Drop Database" "Exit"
 do
 case $choose in
 "create Database" )
@@ -28,7 +28,7 @@ case $choose in
         ;;
 "Drop Database" )
         source drop_db.sh;;
-"Exidt" )
+"Exit" )
         break
         ;;
 *)
