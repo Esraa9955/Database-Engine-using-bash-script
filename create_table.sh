@@ -1,9 +1,16 @@
 #! usr/bin/bash
 
-# get table name 
+# get table name and make some validations
 
 read -p "pls Enter table name : " tablename
+while [[ -z $tablename || $tablename =~ ^[0-9] || $tablename == *['~`!@#$%^&*-+=/|\:.,;''"?><}{)(][']* ]]
+do
+echo -e "$invalid Invalid table name $NC"
+read -p "pls Enter table name : " tablename
+done
 
+#convert spaces to underscore (_)
+dbname=$(echo "$dbname" | tr ' ' '-')
 
 if [ -f $path/$dbname/$tablename ] ;
 then
@@ -14,11 +21,24 @@ echo -e "${note} Table ${tablename} created succssfull! ${NC}"
 
 # create metadata of table
 read -p "Enter number of columns for table ${tablename} : " numcolumns
+# validations on column number and convert it to integer
+while ! [[ $numcolumns =~ ^[1-9][0-9]*$ ]]
+do 
+echo -e "$invalid Invaild number $NC"
+read -p "Enter number of columns for table ${tablename} : " numcolumns
+done
 
 # convert tablename to integer  to operate 
  let numcolumns=$numcolumns
 
+# DB engine does not accept less than two columns
+# the table can not be empty
 
+while [[ $numcolumns < 2 ]]
+do
+echo -e "$invalid Minimum Number Of Columns is 2 $NC"
+read -p "Enter number of columns for table ${tablename} : " numcolumns
+done
 
 
 
@@ -31,7 +51,16 @@ for ((i=2;i<=$numcolumns;i++))
 do
 read -p "Enter column ${i} Name : " colName
 
+# make validations on column name
 
+while [[ -z $colName || $colName =~ ^[0-9] || $colName == *['~`!@#$%^&*-+=/|\:.,;''"?><}{)(][']* ]]
+do
+echo -e "$invalid Invalid Column Name $NC"
+read -p "pls Enter Column ${i} Name : " colName
+done
+
+#convert spaces to underscore (_)
+colName=$(echo "$colName" | tr ' ' '-')
 
 # check if the column exist or not 
 while [[ $column_name == *$"{colName}"* ]] ;
@@ -45,9 +74,9 @@ done
 
 if [ $i -eq 2 ] ;
 then 
-column_name+="id:"$colName
+column_name+="id     :"$colName
 else
-column_name+=":"$colName
+column_name+="     :"$colName
 fi
 
 
@@ -63,10 +92,10 @@ IFS=':' read -ra colArray <<< $colNames
 let index=0
 for ((i=2;i<=numcolumns;i++))
 do
-echo "*****Enter data type for [" ${colNames[$index]} "] filed : "
+echo "*****Enter data type for [" ${colArray[$index]} "] column : "
 index+=1
 # only support string, integer and float
-select choice in "string" "integer" 
+select choice in "string" "integer" "float"
 do
 case $choice in
 "string" )
@@ -74,10 +103,9 @@ if [ $i -eq 2 ] ;
 then
 column_type=integer:string
 else
-column_type+=:string
+column_type+="      :"string
 fi
 break;;
-
 
 "integer" )
 
@@ -85,13 +113,19 @@ if [ $i -eq 2 ] ;
 then
 column_type=integer:integer
 else
-column_type+=:integer
+column_type+="      :"integer
 fi
 break;;
 
+"float" )
 
-
-
+if [ $i -eq 2 ] ;
+then
+column_type=integer:float
+else
+column_type+="      :"float
+fi
+break;;
 
 * )
 echo -e "${invalid} Invalid data type ${NC}"
