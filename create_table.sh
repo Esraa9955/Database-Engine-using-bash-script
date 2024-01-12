@@ -70,7 +70,7 @@ read -p "pls Enter Column $i Name : " colName
 done
 
 # Append column name to the existing names
-column_name+="      |       $colName"
+column_name+="|$colName"
 
 
  # Get data type for the column
@@ -78,11 +78,11 @@ column_name+="      |       $colName"
 select choice in "VARCHAR" "INTEGER" "DATE" ;
 do
 case $choice in
-"VARCHAR" ) column_type+="      |     VARCHAR";
+"VARCHAR" ) column_type+="|VARCHAR";
 break;;
-"INTEGER" ) column_type+="      |     INTEGER";
+"INTEGER" ) column_type+="|INTEGER";
 break;;
-"DATE" ) column_type+="      |       DATE";
+"DATE" ) column_type+="|DATE";
 break;;
 * ) echo -e "${invalid}Invalid data type${NC}"; 
 continue;;

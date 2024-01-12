@@ -1,0 +1,3 @@
+id | age | addresss
+integer | VARCHAR | VARCHAR
+1 | 5

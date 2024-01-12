@@ -1,0 +1,2 @@
+id | name | age | date
+integer | VARCHAR | INTEGER | DATE

@@ -20,10 +20,10 @@ IFS='|' read -ra types_array <<< "$column_types"
 for((i=0;i<${#names_array[@]};i++)) ;
 do
 read -p "Enter data for ${names_array[$i]} (${types_array[$i]}): " value
-data+="$value | "
+data+="$value|"
 done
 echo -e "$data"
-data=${data%" | "}
+data=${data%"|"}
 # Append the data to the table file
 echo $data >> $path/$dbname/$tablename
 #echo -e "$path/$dbname/$tablename"
