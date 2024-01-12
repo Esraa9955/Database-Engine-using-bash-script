@@ -2,7 +2,7 @@
 
 read -p "Enter database name you want to drop : " dbname
 
-dbname= $(echo "$dbname" | tr ' ' '-')
+dbname=$(echo "$dbname" | tr ' ' '_')
 
 if [[ -z $dbname || ! -d $path"/"$dbname ]] ; then
     echo -e "${invalid}  Database ${dbname} not Found ${NC}"

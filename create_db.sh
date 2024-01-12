@@ -7,7 +7,7 @@ echo -e "${invalid} Invaild Name ${NC}"
 read -p "Enter database name  : " dbname
 done
 #convert spaces to underscore (_)
-dbname=$(echo "$dbname" | tr ' ' '-')
+dbname=$(echo "$dbname" | tr ' ' '_')
 #check if DB exists
 if [ -d $path/$dbname ] ;
 then
