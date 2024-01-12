@@ -45,8 +45,8 @@ done
 # by default first column is id and the constraint on it is PK
 echo -e "${note} Note the first column name is id and it is PK ${NC}"
 #loop on number of columns (numcolumns) to get the anme&type of each column (string and int)
-column_name='       id      '
-column_type='     integer   '
+column_name=('id')
+column_type=('integer')
 for ((i=2;i<=$numcolumns;i++))
 do
 read -p "Enter column ${i} Name : " colName
@@ -63,7 +63,7 @@ done
 colName=$(echo "$colName" | tr ' ' '-')
 
 # check if the column exist or not 
-while [[ $column_name == *$"{colName}"* ]] ;
+while [[ "${column_name[@]}" =~ "$colName" ]] ;
 do
 echo -e "${invalid} column ${colName} exist ${NC}"
 read -p "pls Enter Column $i Name : " colName
