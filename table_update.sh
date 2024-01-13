@@ -44,23 +44,19 @@ do
 
 echo "Enter New Value Of " ${colArray[$i]}  "["${dataType[$i]}"]" 
 read value
-        # check data type
-        
-         
+       
         
         if [[ ${dataType[$i]} = "VARCHAR" ]] ;  then
             if [[ ! $value == *[a-zA-z0-9]* ]] ; then      
                 echo -e "${invalid}" ${colArray[$i]} " must be string  ${base}"
                 source db_menu.sh;
             else
-            # convert every space to _
-            while [[ $value == *" "* ]] ; do
-            value="${value/ /_}"    
-            done
-            # end convert
+            
+            value=$(echo "$value" | tr ' ' '_')
+            
                     record[$i]=$value
             fi
-        # Integer
+        
         elif [[ ${dataType[$i]} = "INTEGER" ]] ;  then
             if [[ ! $value =~ ^[0-9]*$ ]] ; then
                 echo -e "${invalid}" ${colArray[$i]} " must be integer  ${base}"
@@ -68,7 +64,7 @@ read value
             else
                     record[$i]=$value
             fi  
-        # Float
+        
         elif [[ ${dataType[$i]} = "DATE"  ]] ;  then
             if [[ ! $value =~ ^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}$  ]] ; then
                 echo -e "${invalid}" ${colArray[$i]} " must be DATE  ${base}"
@@ -77,7 +73,7 @@ read value
                     record[$i]=$value
             fi        
         fi
-        # end if => loop remaining names
+      
       
     
 done
@@ -93,10 +89,6 @@ updateRecord="${data}"
 sed -i "/^$id/s/$current/$updateRecord/" "$path/$dbname/$tablename"
 
 
-
-
-
-  
     else
      echo -e "${invalid} Record Not Found ${NC}"
         source db_menu.sh
