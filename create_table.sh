@@ -10,7 +10,7 @@ read -p "pls Enter table name : " tablename
 done
 
 #convert spaces to underscore (_)
-tablename=$(echo "$tablename" | tr ' ' '-')
+tablename=$(echo "$tablename" | tr ' ' '_')
 
 if [ -f $path/$dbname/$tablename ] ;
 then
@@ -44,7 +44,7 @@ done
 
 # by default first column is id and the constraint on it is PK
 echo -e "${note} Note the first column name is id and it is PK ${NC}"
-#loop on number of columns (numcolumns) to get the anme&type of each column (string and int)
+#loop on number of columns (numcolumns) to get the name&type of each column (string || int || )
 column_name=('id')
 column_type=('integer')
 for ((i=2;i<=$numcolumns;i++))
@@ -60,7 +60,7 @@ read -p "pls Enter Column ${i} Name : " colName
 done
 
 #convert spaces to underscore in column name
-colName=$(echo "$colName" | tr ' ' '-')
+colName=$(echo "$colName" | tr ' ' '_')
 
 # check if the column exist or not 
 while [[ "${column_name[@]}" =~ "$colName" ]] ;
